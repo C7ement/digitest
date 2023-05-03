@@ -1,4 +1,4 @@
-import 'package:digitest/l10n/l10n.dart';
+import 'package:digitest/assets/l10n/l10n.dart';
 import 'package:digitest/views/counter/view/counter_page.dart';
 import 'package:flutter/material.dart';
 
