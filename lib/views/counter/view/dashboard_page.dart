@@ -25,13 +25,17 @@ class _DashboardPage extends StatelessWidget {
       body: Center(
         child: BlocBuilder<ImageCubit, List<String>>(
           builder: (context, images) {
-            return ListView.builder(
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 1.0,
+              ),
               itemCount: images.length,
               itemBuilder: (context, index) {
                 final url = images[index];
-                return ListTile(
-                  title: Text(url),
-                );
+                return Image.network(url, fit: BoxFit.cover);
               },
             );
           },
