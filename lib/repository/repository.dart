@@ -20,15 +20,20 @@ class UnsplashRepository {
     if (response.statusCode == 200) {
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       final pets = jsonList
-          .map<Pet>((json) => Pet(
-                category: query ?? "",
-                url: json['urls']['regular'] as String,
-                creationDate: DateTime.parse(json['created_at'] as String),
-              ))
+          .map<Pet>(
+            (json) => Pet(
+              category: query ?? "",
+              url: json['urls']['regular'] as String,
+              creationDate: DateTime.parse(
+                json['created_at'] as String,
+              ),
+              description: json['description'] as String,
+            ),
+          )
           .toList();
       return pets;
     } else {
-      throw Exception('Failed to load pets');
+      throw Exception('Failed to load pets ${response.body}');
     }
   }
 

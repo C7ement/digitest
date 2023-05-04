@@ -1,15 +1,17 @@
 import 'package:digitest/repository/repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'image_state.dart';
 
-class ImageCubit extends Cubit<ImageState> {
+class ImageCubit extends HydratedCubit<ImageState> {
   final UnsplashRepository _repository;
 
   ImageCubit(this._repository) : super(ImageState.initial()) {
-    fetchPuppies(10);
+    if (state.pets.isEmpty) {
+      fetchPuppies(10);
+    }
   }
 
   Future<void> fetchPuppies(int count) async {
@@ -19,9 +21,6 @@ class ImageCubit extends Cubit<ImageState> {
         'kitten',
         'rabbit',
         'hamster',
-        'ferret',
-        'hedgehog',
-        'duckling'
       ];
       final futures = keywords.map(
         (keyword) => _repository.fetchPets(count: count, query: keyword),
@@ -40,5 +39,19 @@ class ImageCubit extends Cubit<ImageState> {
         fontSize: 16,
       );
     }
+  }
+
+  @override
+  ImageState? fromJson(Map<String, dynamic> json) {
+    final pets = (json['pets'] as List<dynamic>)
+        .map((pet) => Pet.fromJson(pet as Map<String, dynamic>))
+        .toList();
+    return ImageState(pets: pets);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(ImageState state) {
+    final pets = state.pets.map((pet) => pet.toJson()).toList();
+    return {'pets': pets};
   }
 }

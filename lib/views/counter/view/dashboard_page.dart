@@ -16,6 +16,28 @@ class DashboardPage extends StatelessWidget {
   }
 }
 
+class HoverText extends StatelessWidget {
+  const HoverText({super.key, required this.text});
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
 class _DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,26 +63,23 @@ class _DashboardPage extends StatelessWidget {
                 return Stack(
                   children: [
                     AspectRatio(
-                        aspectRatio: 1,
-                        child: Image.network(pet.url, fit: BoxFit.cover)),
+                      aspectRatio: 1,
+                      child: Image.network(pet.url, fit: BoxFit.cover),
+                    ),
                     Positioned(
                       top: 10,
                       right: 10,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          date,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      child: HoverText(text: date),
+                    ),
+                    Positioned(
+                      top: 40,
+                      right: 10,
+                      child: HoverText(text: pet.category),
+                    ),
+                    Positioned(
+                      top: 70,
+                      right: 10,
+                      child: HoverText(text: pet.description),
                     ),
                   ],
                 );
