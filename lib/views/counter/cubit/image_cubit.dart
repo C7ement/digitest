@@ -3,22 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ImageCubit extends Cubit<List<String>> {
+part 'image_state.dart';
+
+class ImageCubit extends Cubit<ImageState> {
   final UnsplashRepository _repository;
 
-  ImageCubit(this._repository) : super([]) {
-    fetchImages(10);
+  ImageCubit(this._repository) : super(ImageState.initial()) {
+    fetchPuppies(10);
   }
 
-  Future<void> fetchImages(int count) async {
+  Future<void> fetchPuppies(int count) async {
     try {
-      final images =
-          await _repository.fetchImages(count: count, query: "puppy");
-      emit(images);
+      final keywords = [
+        'puppy',
+        'kitten',
+        'rabbit',
+        'hamster',
+        'ferret',
+        'hedgehog',
+        'duckling'
+      ];
+      final futures = keywords.map(
+        (keyword) => _repository.fetchPets(count: count, query: keyword),
+      );
+      final results = await Future.wait(futures);
+      final pets = results.expand((list) => list).toList();
+      emit(ImageState(pets: pets));
     } catch (e) {
-      print('Failed to fetch images: $e');
+      print('Failed to fetch puppies: $e');
       await Fluttertoast.showToast(
-        msg: 'Failed to fetch images: $e',
+        msg: 'Failed to fetch puppies: $e',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,

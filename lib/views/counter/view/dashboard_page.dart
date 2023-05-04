@@ -2,6 +2,7 @@ import 'package:digitest/repository/repository.dart';
 import 'package:digitest/views/counter/cubit/image_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -23,19 +24,46 @@ class _DashboardPage extends StatelessWidget {
         title: const Text('Dashboard'),
       ),
       body: Center(
-        child: BlocBuilder<ImageCubit, List<String>>(
-          builder: (context, images) {
+        child: BlocBuilder<ImageCubit, ImageState>(
+          builder: (context, state) {
+            final pets = state.sortedPets;
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-                childAspectRatio: 1.0,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
               ),
-              itemCount: images.length,
+              itemCount: pets.length,
               itemBuilder: (context, index) {
-                final url = images[index];
-                return Image.network(url, fit: BoxFit.cover);
+                final pet = pets[index];
+                final formatter = DateFormat('dd MMMM yyyy', 'fr_FR');
+                final date = formatter.format(pet.creationDate);
+                return Stack(
+                  children: [
+                    AspectRatio(
+                        aspectRatio: 1,
+                        child: Image.network(pet.url, fit: BoxFit.cover)),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Text(
+                          date,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
               },
             );
           },
