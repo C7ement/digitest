@@ -11,11 +11,9 @@ class ImageCubit extends Cubit<List<String>> {
   }
 
   Future<void> fetchImages(int count) async {
-    Fluttertoast.showToast(
-      msg: 'Get images',
-    );
     try {
-      final images = await _repository.fetchImages(count);
+      final images =
+          await _repository.fetchImages(count: count, query: "puppy");
       emit(images);
     } catch (e) {
       print('Failed to fetch images: $e');
