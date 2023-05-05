@@ -9,14 +9,22 @@ class UnsplashRepository {
   final String _apiKey = ApiKeys.accessKey;
 
   Future<List<Pet>> fetchPets({required int count, String? query}) async {
-    final queryParams = {'client_id': _apiKey, 'count': count.toString()};
+    final queryParams = {
+      'client_id': _apiKey,
+      'count': count.toString(),
+      'description': true,
+    };
+
     if (query != null) {
-      queryParams['query'] = query;
+      queryParams['query'] = 'cute $query';
     }
+
     final response = await http.get(
       Uri.parse(
-          '$_baseUrl/photos/random?${_encodeQueryParameters(queryParams)}'),
+        '$_baseUrl/photos/random?${_encodeQueryParameters(queryParams)}',
+      ),
     );
+
     if (response.statusCode == 200) {
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       final pets = jsonList
@@ -27,7 +35,8 @@ class UnsplashRepository {
               creationDate: DateTime.parse(
                 json['created_at'] as String,
               ),
-              description: json['description'] as String,
+              description: json['description'] as String? ?? "",
+              alt_description: json['alt_description'] as String? ?? "",
             ),
           )
           .toList();
@@ -37,7 +46,7 @@ class UnsplashRepository {
     }
   }
 
-  String _encodeQueryParameters(Map<String, String> params) {
+  String _encodeQueryParameters(Map<String, dynamic> params) {
     return params.entries.map((e) => '${e.key}=${e.value}').join('&');
   }
 }

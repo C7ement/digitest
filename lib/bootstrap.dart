@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -24,6 +25,12 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
+
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: appDocumentDir,
+  );
 
   Bloc.observer = const AppBlocObserver();
 
