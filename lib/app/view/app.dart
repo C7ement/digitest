@@ -1,5 +1,5 @@
 import 'package:digitest/assets/l10n/l10n.dart';
-import 'package:digitest/views/counter/view/dashboard_page.dart';
+import 'package:digitest/views/counter/view/dashboard/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
