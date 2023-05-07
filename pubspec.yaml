@@ -16,7 +16,7 @@ dependencies:
   fluttertoast: ^8.2.1
   http: ^0.13.6
   hydrated_bloc: ^9.1.0
-  intl: ^0.17.0
+  intl: ^0.18.1
   path_provider: ^2.0.14
   equatable: ^2.0.3
   cached_network_image: ^3.2.3
