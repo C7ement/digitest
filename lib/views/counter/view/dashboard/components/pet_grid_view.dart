@@ -56,7 +56,7 @@ class _PetGridItemState extends State<PetGridItem> {
               left: 10,
               child: Wrap(children: [HoverText(text: widget.pet.description)]),
             ),
-          if (!displayInfo)
+          if (!displayInfo && widget.pet.description.isNotEmpty)
             const Positioned(
               bottom: 10,
               right: 10,
