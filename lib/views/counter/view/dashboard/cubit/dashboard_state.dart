@@ -1,11 +1,20 @@
 part of 'dashboard_cubit.dart';
 
-class DashboardState {
-  const DashboardState({required this.selectedCategory});
+class DashboardState extends Equatable {
+  const DashboardState({required this.selectedCategories});
 
   factory DashboardState.initial() {
-    return const DashboardState(selectedCategory: null);
+    return const DashboardState(selectedCategories: {});
   }
 
-  final int? selectedCategory;
+  final Set<String> selectedCategories;
+
+  DashboardState copyWith({Set<String>? selectedCategories}) {
+    return DashboardState(
+      selectedCategories: selectedCategories ?? this.selectedCategories,
+    );
+  }
+
+  @override
+  List<Object?> get props => [selectedCategories];
 }

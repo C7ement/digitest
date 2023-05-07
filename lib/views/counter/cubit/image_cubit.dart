@@ -20,7 +20,6 @@ class ImageCubit extends HydratedCubit<ImageState> {
         'puppy',
         'kitten',
         'rabbit',
-        'hamster',
       ];
       final futures = keywords.map(
         (keyword) => _repository.fetchPets(count: count, query: keyword),
