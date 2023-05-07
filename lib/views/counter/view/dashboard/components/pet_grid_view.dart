@@ -4,6 +4,73 @@ import 'package:digitest/views/counter/view/dashboard/components/hover_text.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+class PetGridItem extends StatefulWidget {
+  const PetGridItem({Key? key, required this.pet}) : super(key: key);
+
+  final Pet pet;
+
+  @override
+  _PetGridItemState createState() => _PetGridItemState();
+}
+
+class _PetGridItemState extends State<PetGridItem> {
+  bool displayInfo = false;
+
+  void toggleDisplayInfo() {
+    setState(() {
+      displayInfo = !displayInfo;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final formatter = DateFormat('dd MMMM yyyy', 'fr_FR');
+    final date = formatter.format(widget.pet.creationDate);
+
+    return GestureDetector(
+      onTap: toggleDisplayInfo,
+      child: Stack(
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: CachedNetworkImage(
+              imageUrl: widget.pet.url,
+              fit: BoxFit.cover,
+            ),
+          ),
+          if (displayInfo)
+            Positioned(
+              top: 10,
+              right: 10,
+              child: HoverText(text: date),
+            ),
+          Positioned(
+            top: displayInfo ? 40 : 10,
+            right: 10,
+            child: HoverText(text: widget.pet.category),
+          ),
+          if (displayInfo && widget.pet.description.isNotEmpty)
+            Positioned(
+              bottom: 10,
+              right: 10,
+              left: 10,
+              child: Wrap(children: [HoverText(text: widget.pet.description)]),
+            ),
+          if (!displayInfo)
+            const Positioned(
+              bottom: 10,
+              right: 10,
+              child: Icon(
+                Icons.info_outline,
+                color: Colors.black54,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class PetGridView extends StatelessWidget {
   const PetGridView({Key? key, required this.pets}) : super(key: key);
 
@@ -22,34 +89,7 @@ class PetGridView extends StatelessWidget {
         itemCount: pets.length,
         itemBuilder: (context, index) {
           final pet = pets[index];
-          final formatter = DateFormat('dd MMMM yyyy', 'fr_FR');
-          final date = formatter.format(pet.creationDate);
-          return Stack(
-            children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: CachedNetworkImage(
-                  imageUrl: pet.url,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: HoverText(text: date),
-              ),
-              Positioned(
-                top: 40,
-                right: 10,
-                child: HoverText(text: pet.category),
-              ),
-              Positioned(
-                top: 70,
-                right: 10,
-                child: HoverText(text: pet.description),
-              ),
-            ],
-          );
+          return PetGridItem(pet: pet);
         },
       ),
     );
