@@ -44,6 +44,9 @@ class _DashboardPage extends StatelessWidget {
                               state.selectedCategories.contains(pet.category),
                         )
                         .toList();
+                final cartTotal = state.shoppingCart
+                    .fold(0, (value, pet) => value + pet.price);
+                final cartPetCount = state.shoppingCart.length;
 
                 return Column(
                   children: [
@@ -64,19 +67,48 @@ class _DashboardPage extends StatelessWidget {
                     const SizedBox(height: 8),
                     Container(
                       color: Theme.of(context).appBarTheme.backgroundColor,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              'Bottom row text',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 12,
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.shopping_cart,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  cartPetCount == 0
+                                      ? ':    Empty cart'
+                                      : ':    $cartTotal 🍼',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
+                          const Spacer(),
+                          if (cartPetCount > 0)
+                            OutlinedButton(
+                              onPressed: () =>
+                                  context.read<DashboardCubit>().checkout(),
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: Colors.white),
+                              ),
+                              child: const Text(
+                                'Checkout',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(width: 16),
                         ],
                       ),
                     ),

@@ -28,7 +28,7 @@ class PetGridItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                         child: Text(
-                          '${pet.price} 🥕',
+                          '${pet.price} 🍼',
                           style: const TextStyle(
                             fontSize: 18,
                             color: Colors.white,
