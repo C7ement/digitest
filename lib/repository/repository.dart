@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:digitest/api_keys.dart';
-import 'package:digitest/views/counter/cubit/image_cubit.dart';
+import 'package:digitest/models/pet.dart';
 import 'package:http/http.dart' as http;
 
 class UnsplashRepository {

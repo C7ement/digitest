@@ -1,3 +1,4 @@
+import 'package:digitest/models/pet.dart';
 import 'package:digitest/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

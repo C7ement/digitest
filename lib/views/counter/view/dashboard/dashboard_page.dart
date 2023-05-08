@@ -1,7 +1,7 @@
 import 'package:digitest/repository/repository.dart';
 import 'package:digitest/views/counter/cubit/image_cubit.dart';
 import 'package:digitest/views/counter/view/dashboard/components/category_button.dart';
-import 'package:digitest/views/counter/view/dashboard/components/pet_grid_view.dart';
+import 'package:digitest/views/counter/view/dashboard/components/grid/pet_grid_view.dart';
 import 'package:digitest/views/counter/view/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +60,26 @@ class _DashboardPage extends StatelessWidget {
                           )
                           .toList(),
                     ),
-                    Expanded(child: PetGridView(pets: filteredPets))
+                    Expanded(child: PetGridView(pets: filteredPets)),
+                    const SizedBox(height: 8),
+                    Container(
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              'Bottom row text',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 );
               },

@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digitest/views/counter/cubit/image_cubit.dart';
+import 'package:digitest/models/pet.dart';
 import 'package:digitest/views/counter/view/dashboard/components/hover_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class PetGridItem extends StatefulWidget {
-  const PetGridItem({Key? key, required this.pet}) : super(key: key);
+class PetImage extends StatefulWidget {
+  const PetImage({Key? key, required this.pet}) : super(key: key);
 
   final Pet pet;
 
   @override
-  _PetGridItemState createState() => _PetGridItemState();
+  _PetImageState createState() => _PetImageState();
 }
 
-class _PetGridItemState extends State<PetGridItem> {
+class _PetImageState extends State<PetImage> {
   bool displayInfo = false;
 
   void toggleDisplayInfo() {
@@ -54,7 +54,11 @@ class _PetGridItemState extends State<PetGridItem> {
               bottom: 10,
               right: 10,
               left: 10,
-              child: Wrap(children: [HoverText(text: widget.pet.description)]),
+              child: Wrap(
+                children: [
+                  HoverText(text: widget.pet.description),
+                ],
+              ),
             ),
           if (!displayInfo && widget.pet.description.isNotEmpty)
             const Positioned(
@@ -66,31 +70,6 @@ class _PetGridItemState extends State<PetGridItem> {
               ),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class PetGridView extends StatelessWidget {
-  const PetGridView({Key? key, required this.pets}) : super(key: key);
-
-  final List<Pet> pets;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemCount: pets.length,
-        itemBuilder: (context, index) {
-          final pet = pets[index];
-          return PetGridItem(pet: pet);
-        },
       ),
     );
   }
