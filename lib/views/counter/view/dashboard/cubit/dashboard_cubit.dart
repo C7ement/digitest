@@ -22,4 +22,20 @@ class DashboardCubit extends Cubit<DashboardState> {
       );
     }
   }
+
+  void togglePetInCart(Pet pet) {
+    if (state.shoppingCart.contains(pet)) {
+      emit(
+        state.copyWith(
+          shoppingCart: state.shoppingCart.difference({pet}),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          shoppingCart: state.shoppingCart.union({pet}),
+        ),
+      );
+    }
+  }
 }
